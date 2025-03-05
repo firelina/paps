@@ -113,23 +113,42 @@ URL: /api/v1/materials
 Код 500: Внутренняя ошибка сервера.
 
 Добавление пользователя
+
 ![post_user.PNG](post_user.PNG)
+
 ![post_user_tests.PNG](post_user_tests.PNG)
+
 Получение пользователя
+
 ![get_user.PNG](get_user.PNG)
 ![get_user_tset.PNG](get_user_tset.PNG)
+
 Добавление материала
+
 ![post_material.PNG](post_material.PNG)
 ![post_material_test.PNG](post_material_test.PNG)
+
 Получение материала
+
 ![get_material.PNG](get_material.PNG)
 ![get_material_test.PNG](get_material_test.PNG)
+
 Создание сценария
+
 ![post_scenario.PNG](post_scenario.PNG)
-![post_material_test.PNG](post_material_test.PNG)
+![post_scenario_test.PNG](post_scenario_test.PNG)
+
+Получение сценария
+
+![get_scen.PNG](get_scen.PNG)
+![get_scen_test.PNG](get_scen_test.PNG)
+
 Обновление сценария
+
 ![put_scen.PNG](put_scen.PNG)
 ![put_scen_test.PNG](put_scen_test.PNG)
+
 Удаление сценария
+
 ![delete_scen.PNG](delete_scen.PNG)
 ![delete_scen_test.PNG](delete_scen_test.PNG)
