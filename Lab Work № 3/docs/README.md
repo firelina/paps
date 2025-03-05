@@ -1,125 +1,16 @@
-Диаграмма контейнеров
-![img_3.png](img_3.png)
-@startuml
-!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+### **Диаграмма контейнеров**
 
-SHOW_PERSON_OUTLINE()
+![img_2.PNG](img_2.PNG)
 
-Person(teachers, Преподаватели, "Создают учебные сценарии и делятся ими со студентами")
-Person(students, Студенты, "Получают доступ к учебным материалам и практикуют навыки")
-System_Boundary(c1, "Система изучения морского английского") {
-    Container(clientTeachers, "Клиент преподавателей", "Web, JavaScript", "Позволяет создавать сценарии и загружать материалы")
-    Container(clientStudents, "Клиент студентов", "Web, JavaScript", "Позволяет прослушивать материалы и практиковать навыки")
-    Container(server, "Сервер", "Go", "Ответственен за обработку и передачу данных")
-    ContainerDb(db, "База данных", "PostgreSQL", "Хранит сценарии и материалы", $sprite="msql_server")
-}
 
-Rel_D(teachers, clientTeachers, "Создаёт сценарии, загружает материалы")
-Rel_D(clientTeachers, server, "Передаёт данные на сервер")
-Rel_D(server, db, "Сохраняет сценарии и связанные материалы")
-Rel_U(db, server, "Получает сценарии и материалы")
-Rel_D(server, clientTeachers, "Передаёт сценарии и материалы")
-Rel_D(teachers, students, "Передаёт учебные материалы")
-Rel_D(students, clientStudents, "Запрашивает и прослушивает материалы")
-Rel_D(clientStudents, server, "Запрашивает материалы и сценарии")
+### **Диаграмма компонентов**
 
-SHOW_LEGEND()
-@enduml
-
-Диаграмма компонентов
 ![img.png](img.png)
-@startuml
-!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
-AddElementTag("microService", $shape=EightSidedShape(), $bgColor="CornflowerBlue", $fontColor="white", $legendText="micro service\neight sided")
-AddElementTag("storage", $shape=RoundedBoxShape(), $bgColor="lightSkyBlue", $fontColor="white")
 
-SHOW_PERSON_OUTLINE()
+### **Диаграмма последовательности**
 
-Person(students, Студенты, "Изучают морской английский и практикуют произношение")
-System(s, "Сервер", "Ответственен за обработку и передачу данных", $type="Container / Go")
-Boundary(c, "Клиент студентов", "Container / Web, JavaScript") {
-    Container(v, "Интерфейс", "Component: UI View", "Экраны для изучения и практики.")
-    Container(vm, "ViewModel", "Component: Controller", "Логика, управляющая данными и взаимодействием с View.")
-    Container(m, "Model", "Component: Model", "Хранит данные о материалах и результатах.")
-    Container(ar, "Аудио анализатор", "Component: Audio Processing", "Компонент, реализующий анализ звука и оценку произношения.")
-}
-Rel_D(students, v, "Нажатие кнопок (пользовательское взаимодействие)")
-Rel_D(v, vm, "Отправка пользовательского взаимодействия")
-Rel_D(vm, v, "Уведомление об обновлении данных")
-BiRel(vm, m, "Получение и обновления данных о материалах")
-Rel_D(vm, ar, "Уведомление об обновлении данных")
-BiRel(m, s, "Получение данных о материалах")
-Rel_D(ar, vm, "Отправка результатов анализа")
-
-SHOW_LEGEND()
-@enduml
-
-Диаграмма последовательности
 ![img_1.png](img_1.png)
-@startuml
-actor Студент as Student
-participant "Интерфейс" as MobileApp
-participant "Аудио анализатор" as AudioAnalyzer
-participant "ViewModel" as ViewModel
-participant "Model" as Model
-database "Сервер" as Server
-
-Student -> MobileApp: Открытие приложения
-
-activate MobileApp
-Student -> MobileApp: Изучение материала
-MobileApp -> ViewModel: Запрос материала
-
-activate ViewModel
-ViewModel -> Model: Запрос данных о материале
-
-activate Model
-Model -> Server: Запрос данных о материале
-
-activate Server
-Server --> Model: Возврат данных о материале
-deactivate Server
-
-Model --> ViewModel: Возврат данных о материале
-deactivate Model
-
-ViewModel --> MobileApp: Возврат материала
-deactivate ViewModel
-
-MobileApp --> Student: Отображение материала
-
-
-Student -> MobileApp: Запись произношения
-MobileApp -> AudioAnalyzer: Анализ звука
-
-activate AudioAnalyzer
-AudioAnalyzer -> ViewModel: Запрос данных для анализа
-
-activate ViewModel
-ViewModel -> Model: Запрос данных для анализа
-
-activate Model
-Model -> Server: Запрос данных для анализа
-
-activate Server
-Server --> Model: Возврат данных для анализа
-deactivate Server
-
-Model --> ViewModel: Возврат данных для анализа
-deactivate Model
-
-ViewModel --> AudioAnalyzer: Возврат данных для анализа
-deactivate ViewModel
-
-AudioAnalyzer --> MobileApp: Возврат результатов анализа
-deactivate AudioAnalyzer
-
-MobileApp --> Student: Показ результатов анализа
-
-
-Student -> MobileApp: Закрытие приложения
-@enduml
 
 Пояснения:
 1) Открытие приложения:
@@ -144,124 +35,106 @@ AudioAnalyzer возвращает результаты анализа в при
 5) Закрытие приложения:
 Студент закрывает приложение.
 
-Модель базы данных
-![img_2.png](img_2.png)
+### **Модель базы данных**
 
-@startuml
-class User {
-  +id: int
-  -username: string
-  -password: string
-  -isStudent: boolean
-  -createdMaterials: Set<Material>
-}
+![img_3.PNG](img_3.PNG)
 
-class Material {
-  +id: int
-  -type: string
-  -content: string
-  -user: User
-}
 
-class AudioAnalysis {
-  +id: int
-  -user: User
-  -material: Material
-  -score: double
-  -feedback: string
-}
-
-User  "1" -- "*" Material: Создает
-User  "1" -- "*" AudioAnalysis: Выполняет
-Material "1" -- "*" AudioAnalysis: Анализируется
-@enduml
 
 Пояснение:
-Класс User:
-Представляет пользователя системы.
+Класс User: Представляет пользователя системы, включая информацию о его учетной записи и активности.
 
-Класс Material:
-Представляет учебный материал - его содержание.
+Класс Material: Представляет учебный материал, включая его тип, содержание и метаданные, такие как дата создания и теги.
 
-Класс AudioAnalysis:
-Представляет анализ произношения - содержит оценку и обратную связь для студента.
+Класс AudioAnalysis: Представляет анализ произношения, содержащий оценку, обратную связь для студента, а также дату анализа и продолжительность.
+
+Класс VideoAnalysis: Представляет анализ видео, аналогичный классу AudioAnalysis, с оценкой и обратной связью, а также дополнительными метаданными.
+
+Класс Quiz: Представляет тест, содержащий вопросы и информацию о создателе, а также дату создания и статус публикации.
 
 Связи между классами:
+
 User создает Material: Один пользователь может создавать множество материалов (отношение "один ко многим").
+
 User выполняет AudioAnalysis: Один пользователь может выполнять множество анализов произношения (отношение "один ко многим").
+
+User выполняет VideoAnalysis: Один пользователь может выполнять множество видеоанализов (отношение "один ко многим").
+
+User создает Quiz: Один пользователь может создавать множество тестов (отношение "один ко многим").
+
 Material анализируется в AudioAnalysis: Один материал может быть проанализирован в нескольких анализах произношения (отношение "один ко многим").
 
-Код
-package main
+Material анализируется в VideoAnalysis: Один материал может быть проанализирован в нескольких видеоанализах (отношение "один ко многим").
 
-import (
-	"errors"
-	"fmt"
-)
+Material содержит Quiz: Один материал может содержать несколько вопросов теста (отношение "один ко многим").
 
-// Service - интерфейс для получения данных
+### **Применение основных принципов разработки**
+
+**Пример кода** 
+
+`// Service - интерфейс для получения данных
 type Service[T any] interface {
 	FetchData(id any) ([]T, error)
-}
+}`
 
-// Material - структура для хранения информации о материале
+`// Material - структура для хранения информации о материале
 type Material struct {
 	ID      int
 	Type    string
 	Content string
 	UserID  int
-}
+}`
 
-// AudioAnalysis - структура для хранения информации об анализе произношения
+`// AudioAnalysis - структура для хранения информации об анализе произношения
 type AudioAnalysis struct {
 	ID        int
 	UserID    int
 	MaterialID int
 	Score     float64
 	Feedback  string
-}
+}`
 
-// MaterialService - структура для работы с материалами
+`// MaterialService - структура для работы с материалами
 type MaterialService struct {
 	data []Material
-}
+}`
 
-// FetchData - метод для получения материалов
+`// FetchData - метод для получения материалов
 func (ms *MaterialService) FetchData(id any) ([]Material, error) {
 	// Логика получения материалов
 	// Здесь можно добавить логику для получения данных, например, из базы данных или API
-
-	// В случае успеха
-	return ms.data, nil
+`
+`	// В случае успеха
+	return ms.data, nil`
 
 	// В случае ошибки
 	// return nil, errors.New("ошибка получения данных")
-}
+`}`
 
-// AudioAnalysisService - структура для работы с анализом произношения
+`// AudioAnalysisService - структура для работы с анализом произношения
 type AudioAnalysisService struct {
 	data []AudioAnalysis
-}
+}`
 
-// FetchData - метод для получения анализа произношения
+`// FetchData - метод для получения анализа произношения
 func (aas *AudioAnalysisService) FetchData(id any) ([]AudioAnalysis, error) {
 	// Логика получения анализа произношения
 	// Здесь можно добавить логику для получения данных, например, из базы данных или API
-
-	// В случае успеха
-	return aas.data, nil
+`
+`	// В случае успеха
+	return aas.data, nil`
 
 	// В случае ошибки
 	// return nil, errors.New("ошибка получения данных")
-}
+`}`
 
-// MainViewController - структура для управления представлением
+`// MainViewController - структура для управления представлением
 type MainViewController struct {
 	materialService      Service[Material]
 	analysisService      Service[AudioAnalysis]
-}
+}`
 
-func (mvc *MainViewController) GetMaterials() {
+`func (mvc *MainViewController) GetMaterials() {
 	materials, err := mvc.materialService.FetchData(nil)
 	if err != nil {
 		// Обработка ошибки
@@ -270,9 +143,9 @@ func (mvc *MainViewController) GetMaterials() {
 	}
 	// Обработка материалов
 	fmt.Println("Полученные материалы:", materials)
-}
+}`
 
-func (mvc *MainViewController) AnalyzePronunciation(materialID int) {
+`func (mvc *MainViewController) AnalyzePronunciation(materialID int) {
 	analyses, err := mvc.analysisService.FetchData(materialID)
 	if err != nil {
 		// Обработка ошибки
@@ -281,9 +154,9 @@ func (mvc *MainViewController) AnalyzePronunciation(materialID int) {
 	}
 	// Обработка результатов анализа
 	fmt.Println("Полученные результаты анализа:", analyses)
-}
+}`
 
-func main() {
+`func main() {
 	// Пример использования
 	mvc := MainViewController{
 		materialService: &MaterialService{
@@ -296,33 +169,99 @@ func main() {
 				{ID: 1, UserID: 1, MaterialID: 1, Score: 95.0, Feedback: "Отлично!"},
 			},
 		},
-	}
+	}`
 
 	mvc.GetMaterials()
 	mvc.AnalyzePronunciation(1)
-}
-Объяснение принципов
-KISS (Keep It Simple, Stupid):
-Классы MaterialService и AudioAnalysisService предоставляют простые методы для получения материалов и анализа
-произношения. Они скрывают сложность внутренней реализации, обеспечивая клиентскому коду простоту взаимодействия.
+`}`
 
-YAGNI (You Aren't Gonna Need It):
-Реализована только минимально необходимая функциональность для получения материалов и анализа произношения.
-Нет изыточной сложности, реализована исключительно необходимая функциональности
+### **Объяснение принципов**
 
-DRY (Don't Repeat Yourself):
-Разработка кода направлена на избежание повторений, с единой, повторно используемой логикой для обработки ответов от сервисов.
+### **KISS** (Keep It Simple, Stupid):KISS (Keep It Simple, Stupid)
 
-SOLID:
+Код написан просто и понятно, без излишней сложности.
 
-S (Single Responsibility Principle): Каждый из классов имеет одну основную ответственность - предоставление данных о материалах или анализе произношения.
-O (Open/Closed Principle): Используем протокол Service, который позволяет добавлять новые сервисы, не изменяя существующий код.
-L (Liskov Substitution Principle): Принцип неявно соблюдается, так как все сервисы реализуют один и тот же протокол.
-I (Interface Segregation Principle): Протоколы содержат только необходимые методы, что позволяет избежать избыточности.
-D (Dependency Inversion Principle): Создаём объект типа Service и можем ему подсовывать любые сервисы, выполняющие этот протокол.
+`type Service[T any] interface {
+FetchData(id any) ([]T, error)
+}`
 
-Другие принципы разработки
-BDUF - Big Design Up Front (Масштабное проектирование прежде всего)
+Интерфейс Service определяет метод FetchData, который получает данные по идентификатору. Это простая и понятная абстракция.
+
+### **YAGNI** (You Aren't Gonna Need It)
+
+Не реализованы ненужные функции.
+
+`type MaterialService struct {
+data []Material
+}`
+
+Класс MaterialService содержит только необходимые поля и методы для работы с материалами. Нет лишних функций, которые могут не понадобиться.
+
+### **DRY** (Don't Repeat Yourself):
+
+Код переиспользуемый и не содержит дублирования.
+
+`func (ms *MaterialService) FetchData(id any) ([]Material, error) {
+return ms.data, nil
+}`
+
+Метод FetchData реализован один раз и используется для получения данных о материалах. Аналогично, AudioAnalysisService использует тот же метод для получения анализа.
+
+### **SOLID**:
+
+#### S - Single Responsibility Principle
+
+Каждый класс имеет одну ответственность.
+
+`type MaterialService struct {
+data []Material
+}`
+
+MaterialService отвечает только за работу с материалами, а AudioAnalysisService — только за анализ аудиофайлов.
+
+#### O - Open/Closed Principle
+
+Классы открыты для расширения, но закрыты для модификации.
+
+`type Service[T any] interface {
+FetchData(id any) ([]T, error)
+}`
+
+Интерфейс Service позволяет добавлять новые реализации, не изменяя существующий код.
+
+#### L - Liskov Substitution Principle
+
+Объекты дочерних классов могут заменять объекты родительского класса.
+
+`func (mvc *MainViewController) GetMaterials() {
+materials, err := mvc.materialService.FetchData(nil)`
+
+MainViewController может работать с любыми реализациями Service, что позволяет легко заменять их.
+
+#### I - Interface Segregation Principle
+
+Интерфейсы разделены и не содержат ненужных методов.
+
+`type Service[T any] interface {
+FetchData(id any) ([]T, error)
+}`
+
+Интерфейс Service содержит только один метод, что делает его простым и понятным.
+
+#### D - Dependency Inversion Principle
+
+Высокоуровневые модули не зависят от низкоуровневых.
+
+`type MainViewController struct {
+materialService      Service[Material]
+analysisService      Service[AudioAnalysis]
+}`
+
+MainViewController зависит от абстракции Service, а не от конкретных реализаций, что позволяет легко заменять их.
+
+### **Другие принципы разработки**
+
+**BDUF - Big Design Up Front** (Масштабное проектирование прежде всего)
 Применимость в проекте: Принцип BDUF может быть особенно полезен в моём проекте, так как требования к приложению для изучения
 морского английского четко определены. Это позволяет учесть все детали проектирования на ранних этапах, что минимизирует
 риск значительных изменений в ходе разработки. Можно заранее спроектировать архитектуру приложения, интерфейсы
@@ -335,7 +274,7 @@ BDUF - Big Design Up Front (Масштабное проектирование п
 Решение: Поскольку мой проект разрабатывается по методологии водопада, применение BDUF будет оправдано. Можно заранее
 спланировать все этапы и избежать неожиданных изменений в будущем.
 
-SoC - Separation of Concerns (Принцип разделения ответственности)
+**SoC - Separation of Concerns** (Принцип разделения ответственности)
 Применимость в проекте: Принцип SoC будет активно применяться в моём проекте, так как он способствует легкости поддержки, 
 повторному использованию кода и тестированию. Я буду разделять код на логические компоненты, такие как сервисы для
 работы с материалами и анализом произношения, а также пользовательский интерфейс. Это упростит понимание кода и его
@@ -347,7 +286,7 @@ SoC - Separation of Concerns (Принцип разделения ответст
 Решение: В нашем проекте принцип SoC уже используется, так как он перекликается с принципом единственной ответственности
 (S из SOLID). Каждый компонент будет иметь четко определенные обязанности.
 
-MVP - Minimum Viable Product (Минимально жизнеспособный продукт)
+**MVP - Minimum Viable Product** (Минимально жизнеспособный продукт)
 Применимость в проекте: Использование MVP в моём проекте позволит быстро внедрить базовую функциональность приложения и получить
 обратную связь от пользователей. Это поможет лучше понять требования и улучшить продукт на ранних этапах, что особенно
 важно в контексте изучения морского английского, где потребности пользователей могут варьироваться.
@@ -360,7 +299,8 @@ MVP - Minimum Viable Product (Минимально жизнеспособный 
 целесообразным. Я смогу быстро протестировать основные функции и внести необходимые изменения на основе отзывов
 пользователей.
 
-PoC - Proof of Concept (Доказательство концепции)
+**PoC - Proof of Concept (Доказательство концепции)**
+
 Применимость в проекте: PoC может быть полезен, когда необходимо оценить техническую осуществимость или эффективность конкретной
 концепции перед началом полноценной разработки. В моём проекте это может включать тестирование новых технологий для
 анализа произношения или интеграции с внешними API для получения учебных материалов.
