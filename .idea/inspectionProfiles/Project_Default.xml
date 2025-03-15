@@ -1,0 +1,33 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="E117" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="pharma.run.User" />
+          <option value="pharma.run.RegisterForm" />
+          <option value="pharma.run.Employee" />
+          <option value="pharma.run.LoginForm" />
+          <option value="pharma.run.DrugstoreForm" />
+          <option value="pharma.run.Drugstore" />
+          <option value="pharma.run.ProviderForm" />
+          <option value="pharma.run.Provider" />
+          <option value="pharma.run.Batch" />
+          <option value="pharma.run.Drug" />
+          <option value="pharma.run.SupplayContract" />
+          <option value="pharma.run.DrugForm" />
+          <option value="pharma.run.EmployeeForm" />
+          <option value="pharma.run.BatchForm" />
+          <option value="pharma.run.SupplayContractForm" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
